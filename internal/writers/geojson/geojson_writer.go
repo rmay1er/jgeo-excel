@@ -5,7 +5,7 @@ import (
 	"os"
 
 	geojson "github.com/paulmach/go.geojson"
-	"github.com/rmay1er/excel-cords-to-geojson-cli/internal/models"
+	"github.com/rmay1er/jgeo-excel/internal/models"
 )
 
 // GeojsonWriter пишет координаты в GeoJSON формат
@@ -36,7 +36,10 @@ func (w *GeojsonWriter) Write(data *[]models.CordsData, color string) error {
 
 	for _, cord := range *data {
 		// Инвертируем координаты из Excel формата [широта, долгота] в GeoJSON формат [долгота, широта]
-		coords := cord.Cords
+		coords, ok := cord.Cords.([]float64)
+		if !ok {
+			return fmt.Errorf("неверный формат координат")
+		}
 		if len(coords) == 2 {
 			// Координаты из Excel приходят в формате [широта, долгота], меняем на [долгота, широта]
 			coords = []float64{coords[1], coords[0]}

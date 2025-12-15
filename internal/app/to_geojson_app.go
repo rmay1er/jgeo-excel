@@ -3,31 +3,33 @@ package app
 import (
 	"fmt"
 
-	"github.com/rmay1er/excel-cords-to-geojson-cli/internal/config"
-	"github.com/rmay1er/excel-cords-to-geojson-cli/internal/processors"
-	"github.com/rmay1er/excel-cords-to-geojson-cli/internal/readers"
-	"github.com/rmay1er/excel-cords-to-geojson-cli/internal/writers"
+	"github.com/rmay1er/jgeo-excel/internal/config"
+	"github.com/rmay1er/jgeo-excel/internal/processors"
+
+	xlsx "github.com/rmay1er/jgeo-excel/internal/readers/excel"
+	"github.com/rmay1er/jgeo-excel/internal/writers"
+	gjs "github.com/rmay1er/jgeo-excel/internal/writers/geojson"
 )
 
 // App основное приложение - фасад для работы с процессором
-type App struct {
-	processor *processors.CoordinatesProcessor
+type GeoJsonApp struct {
+	processor *processors.MarkCoordinatesProcessor
 	writer    writers.Writer
 	config    *config.Config
 }
 
 // NewApp создает новое приложение с процессором
-func NewApp(processor *processors.CoordinatesProcessor, writer writers.Writer) *App {
-	return &App{
+func NewAppGeoJson(processor *processors.MarkCoordinatesProcessor, writer writers.Writer) *GeoJsonApp {
+	return &GeoJsonApp{
 		processor: processor,
 		writer:    writer,
 	}
 }
 
 // NewAppWithConfig создает новое приложение с конфигурацией
-func NewAppWithConfig(cfg *config.Config) (*App, error) {
+func NewAppWithConfig(cfg *config.Config) (*GeoJsonApp, error) {
 	// Создаем Reader для Excel
-	excelReader, err := readers.NewExcelReader(
+	excelReader, err := xlsx.NewExcelReader(
 		cfg.Excel.File,
 		cfg.Excel.Sheet,
 		cfg.Excel.Columns.Name,
@@ -40,16 +42,16 @@ func NewAppWithConfig(cfg *config.Config) (*App, error) {
 	}
 
 	// Создаем Writer для GeoJSON
-	geojsonWriter, err := writers.NewGeojsonWriter(cfg.Geojson.Input)
+	geojsonWriter, err := gjs.NewGeojsonWriter(cfg.Geojson.Input)
 	if err != nil {
 		excelReader.Close()
 		return nil, fmt.Errorf("не удалось создать GeoJSON writer: %w", err)
 	}
 
 	// Создаем процессор
-	processor := processors.NewCoordinatesProcessor(excelReader, geojsonWriter)
+	processor := processors.NewMarkCoordinatesProcessor(excelReader, geojsonWriter)
 
-	return &App{
+	return &GeoJsonApp{
 		processor: processor,
 		writer:    geojsonWriter,
 		config:    cfg,
@@ -57,7 +59,7 @@ func NewAppWithConfig(cfg *config.Config) (*App, error) {
 }
 
 // Process выполняет основной процесс обработки координат
-func (a *App) Process() error {
+func (a *GeoJsonApp) Process() error {
 	if a.config == nil {
 		return fmt.Errorf("конфигурация не установлена")
 	}
@@ -77,7 +79,7 @@ func (a *App) Process() error {
 }
 
 // Close закрывает процессор и writer
-func (a *App) Close() error {
+func (a *GeoJsonApp) Close() error {
 	if a.processor != nil {
 		if err := a.processor.Close(); err != nil {
 			return err

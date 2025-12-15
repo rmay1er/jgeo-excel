@@ -3,26 +3,26 @@ package processors
 import (
 	"fmt"
 
-	"github.com/rmay1er/excel-cords-to-geojson-cli/internal/readers"
-	"github.com/rmay1er/excel-cords-to-geojson-cli/internal/writers"
+	"github.com/rmay1er/jgeo-excel/internal/readers"
+	"github.com/rmay1er/jgeo-excel/internal/writers"
 )
 
-// CoordinatesProcessor обрабатывает координаты: читает из Reader, пишет в Writer
-type CoordinatesProcessor struct {
+// MarkCoordinatesProcessor обрабатывает координаты: читает из Reader, пишет в Writer
+type MarkCoordinatesProcessor struct {
 	reader readers.Reader
 	writer writers.Writer
 }
 
-// NewCoordinatesProcessor создает новый процессор координат
-func NewCoordinatesProcessor(reader readers.Reader, writer writers.Writer) *CoordinatesProcessor {
-	return &CoordinatesProcessor{
+// NewMarkCoordinatesProcessor создает новый процессор координат
+func NewMarkCoordinatesProcessor(reader readers.Reader, writer writers.Writer) *MarkCoordinatesProcessor {
+	return &MarkCoordinatesProcessor{
 		reader: reader,
 		writer: writer,
 	}
 }
 
 // Process выполняет основной процесс: читает данные из Reader, пишет в Writer
-func (p *CoordinatesProcessor) Process(color string) error {
+func (p *MarkCoordinatesProcessor) Process(color string) error {
 	// 1. Читаем данные из Reader
 	fmt.Println("📖 Читаю данные из источника...")
 	data, err := p.reader.Read()
@@ -42,7 +42,7 @@ func (p *CoordinatesProcessor) Process(color string) error {
 }
 
 // Close закрывает Reader и Writer
-func (p *CoordinatesProcessor) Close() error {
+func (p *MarkCoordinatesProcessor) Close() error {
 	var firstErr error
 
 	if p.reader != nil {

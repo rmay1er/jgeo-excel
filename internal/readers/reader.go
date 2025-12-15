@@ -1,6 +1,6 @@
 package readers
 
-import "github.com/rmay1er/excel-cords-to-geojson-cli/internal/models"
+import "github.com/rmay1er/jgeo-excel/internal/models"
 
 // Reader определяет интерфейс для чтения координат из различных источников
 type Reader interface {

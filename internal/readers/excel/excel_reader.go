@@ -3,7 +3,7 @@ package readers
 import (
 	"fmt"
 
-	"github.com/rmay1er/excel-cords-to-geojson-cli/internal/models"
+	"github.com/rmay1er/jgeo-excel/internal/models"
 	"github.com/xuri/excelize/v2"
 )
 

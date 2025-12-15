@@ -1,4 +1,4 @@
-module github.com/rmay1er/excel-cords-to-geojson-cli
+module github.com/rmay1er/jgeo-excel
 
 go 1.25.1
 

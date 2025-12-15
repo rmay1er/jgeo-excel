@@ -6,18 +6,18 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/rmay1er/excel-cords-to-geojson-cli/internal/writers"
+	gjs "github.com/rmay1er/jgeo-excel/internal/writers/geojson"
 	"github.com/spf13/cobra"
 )
 
-// removepointsCmd представляет команду removepoints
-var removepointsCmd = &cobra.Command{
-	Use:   "removepoints",
+// remove-marksCmd представляет команду remove-marks
+var removeMarksCmd = &cobra.Command{
+	Use:   "remove-marks",
 	Short: "Удалить все точки из GeoJSON файла",
-	Long: `Удалить все точки (объекты) из GeoJSON файла, оставив пустую коллекцию объектов.
+	Long: `Удалить все точки из GeoJSON файла, оставив коллекцию поллигонов.
 
 Пример:
-	excel-cords-to-geojson removepoints --file путь/к/файлу.geojson`,
+	excel-cords-to-geojson remove-marks --file путь/к/файлу.geojson`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		filePath, _ := cmd.Flags().GetString("file")
 		if filePath == "" {
@@ -27,7 +27,7 @@ var removepointsCmd = &cobra.Command{
 		fmt.Printf("🗑️  Удаляю все точки из: %s\n", filePath)
 
 		// Создаем GeoJSON writer
-		writer, err := writers.NewGeojsonWriter(filePath)
+		writer, err := gjs.NewGeojsonWriter(filePath)
 		if err != nil {
 			return fmt.Errorf("❌ ошибка загрузки GeoJSON файла: %w", err)
 		}
@@ -49,17 +49,17 @@ var removepointsCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(removepointsCmd)
+	rootCmd.AddCommand(removeMarksCmd)
 
 	// Здесь вы определите флаги и настройки конфигурации.
-	removepointsCmd.Flags().StringP("file", "f", "", "Путь к GeoJSON файлу")
-	removepointsCmd.MarkFlagRequired("file")
+	removeMarksCmd.Flags().StringP("file", "f", "", "Путь к GeoJSON файлу")
+	removeMarksCmd.MarkFlagRequired("file")
 
 	// Cobra поддерживает Persistent Flags, которые будут работать для этой команды
 	// и всех подкоманд, например:
-	// removepointsCmd.PersistentFlags().String("foo", "", "Справка для foo")
+	// remove-marksCmd.PersistentFlags().String("foo", "", "Справка для foo")
 
 	// Cobra поддерживает локальные флаги, которые будут работать только при вызове этой команды
 	// напрямую, например:
-	// removepointsCmd.Flags().BoolP("toggle", "t", false, "Справка для toggle")
+	// remove-marksCmd.Flags().BoolP("toggle", "t", false, "Справка для toggle")
 }

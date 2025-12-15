@@ -5,11 +5,20 @@ import (
 	"strings"
 )
 
+type CordsDataType string
+type CordsListType [][][]float64
+
+const (
+	Point   CordsDataType = "Point"
+	Polygon CordsDataType = "Polygon"
+)
+
 type CordsData struct {
+	Type        CordsDataType
 	IconCaption string
 	PointDesc   string
-	Cords       []float64
-	MarkerColor string
+	Cords       any
+	Color       string
 }
 
 func (c *CordsData) SetCords(cords string) error {

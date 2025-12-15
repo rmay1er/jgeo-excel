@@ -12,9 +12,9 @@ import (
 
 // rootCmd представляет базовую команду приложения
 var rootCmd = &cobra.Command{
-	Use:   "excel-cords-to-geojson",
-	Short: "Преобразование координат из Excel в GeoJSON",
-	Long: `excel-cords-to-geojson - это CLI инструмент для преобразования координат из Excel файла в GeoJSON формат.
+	Use:   "jgeo-excel",
+	Short: "Работа с Excel и GeoJSON",
+	Long: `jgeo-excel - это CLI инструмент для работы с координатами и файлами Excel.
 
 Приложение позволяет:
   • Читать координаты и данные из Excel файла
@@ -23,7 +23,7 @@ var rootCmd = &cobra.Command{
   • Поддерживает несколько листов в Excel
 
 Использование:
-  excel-cords-to-geojson convert --config config.yaml
+  jgeo-excel to-geojson --config config.yaml
 
 Для примера конфигурационного файла смотрите config.example.yaml`,
 	Run: func(cmd *cobra.Command, args []string) {

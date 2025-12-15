@@ -6,16 +6,16 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/rmay1er/excel-cords-to-geojson-cli/internal/app"
-	"github.com/rmay1er/excel-cords-to-geojson-cli/internal/config"
+	"github.com/rmay1er/jgeo-excel/internal/app"
+	"github.com/rmay1er/jgeo-excel/internal/config"
 	"github.com/spf13/cobra"
 )
 
-// convertCmd представляет команду convert
-var convertCmd = &cobra.Command{
-	Use:   "convert",
+// toGeoJsonCmd представляет команду to-geojson
+var toGeoJsonCmd = &cobra.Command{
+	Use:   "to-geojson",
 	Short: "Преобразовать координаты из Excel в GeoJSON",
-	Long: `Команда convert читает координаты из Excel файла и добавляет их в GeoJSON файл.
+	Long: `Команда to-geojson читает координаты из Excel файла и добавляет их в GeoJSON файл.
 
 Требуется конфигурационный файл YAML с указанием:
 - Пути к Excel и GeoJSON файлам
@@ -40,8 +40,8 @@ var convertCmd = &cobra.Command{
     marker_color: "#FF0000"
 
 Использование:
-  excel-cords-to-geojson convert --config config.yaml
-  excel-cords-to-geojson convert -c config.yaml`,
+  excel-cords-to-geojson to-geojson --config config.yaml
+  excel-cords-to-geojson to-geojson -c config.yaml`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// Получаем путь к конфигурационному файлу из флага
 		configPath, err := cmd.Flags().GetString("config")
@@ -50,7 +50,7 @@ var convertCmd = &cobra.Command{
 		}
 
 		if configPath == "" {
-			return fmt.Errorf("флаг --config обязателен. Используйте: convert --config config.yaml")
+			return fmt.Errorf("флаг --config обязателен. Используйте: to-geojson --config config.yaml")
 		}
 
 		fmt.Printf("📂 Загружаю конфигурацию из: %s\n", configPath)
@@ -88,9 +88,9 @@ var convertCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(convertCmd)
+	rootCmd.AddCommand(toGeoJsonCmd)
 
 	// Добавляем флаг для пути к конфигурационному файлу
-	convertCmd.Flags().StringP("config", "c", "", "Путь к конфигурационному YAML файлу (обязателен)")
-	convertCmd.MarkFlagRequired("config")
+	toGeoJsonCmd.Flags().StringP("config", "c", "", "Путь к конфигурационному YAML файлу (обязателен)")
+	toGeoJsonCmd.MarkFlagRequired("config")
 }
