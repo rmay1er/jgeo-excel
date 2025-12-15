@@ -22,7 +22,7 @@ var rootCmd = &cobra.Command{
   • Конфигурировать столбцы Excel и параметры через YAML файл
   • Поддерживает несколько листов в Excel
 
-Использование:
+Example:
   jgeo-excel to-geojson --config config.yaml
 
 Для примера конфигурационного файла смотрите config.example.yaml`,

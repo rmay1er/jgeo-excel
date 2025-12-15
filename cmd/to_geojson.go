@@ -22,26 +22,9 @@ var toGeoJsonCmd = &cobra.Command{
 - Названий листа и столбцов в Excel
 - Пути для выходного GeoJSON файла
 
-Пример конфига (config.yaml):
-  excel:
-    file: "data.xlsx"
-    sheet: "Sheet1"
-    columns:
-      name: "A"
-      description: "B"
-      coordinates: "C"
-    start_row: 2
-
-  geojson:
-    input: "base.geojson"
-    output: "result.geojson"
-
-  appearance:
-    marker_color: "#FF0000"
-
-Использование:
-  excel-cords-to-geojson to-geojson --config config.yaml
-  excel-cords-to-geojson to-geojson -c config.yaml`,
+Example:
+  jgeo-excel to-geojson --config config.yaml
+  jgeo-excel to-geojson -c config.yaml`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// Получаем путь к конфигурационному файлу из флага
 		configPath, err := cmd.Flags().GetString("config")

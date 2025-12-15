@@ -43,5 +43,6 @@ func init() {
 
 	// Добавляем флаг для пути к конфигурационному файлу
 	toExcelCmd.Flags().StringP("input", "i", "", "Путь к GeoJson файлу обязателен")
+	toExcelCmd.Flags().StringP("output", "o", "", "Путь к итоговому файлу, если необходимо")
 	toExcelCmd.MarkFlagRequired("input")
 }

@@ -55,7 +55,7 @@ func (w *GeojsonWriter) Write(data *[]models.CordsData, color ...string) error {
 			newPoint.SetProperty("description", cord.Description)
 		}
 		if color != nil && color[0] != "" {
-			newPoint.SetProperty("marker-color", color)
+			newPoint.SetProperty("marker-color", color[0])
 		}
 
 		w.file.AddFeature(newPoint)
