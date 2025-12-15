@@ -22,7 +22,7 @@ func NewMarksProcessor(reader readers.Reader, writer writers.Writer) *MarksProce
 }
 
 // Process выполняет основной процесс: читает данные из Reader, пишет в Writer
-func (p *MarksProcessor) Process(color string) error {
+func (p *MarksProcessor) Process(color ...string) error {
 	// 1. Читаем данные из Reader
 	fmt.Println("📖 Читаю данные из источника...")
 	data, err := p.reader.Read()
@@ -33,7 +33,11 @@ func (p *MarksProcessor) Process(color string) error {
 
 	// 2. Пишем данные через Writer
 	fmt.Println("✍️  Записываю данные в целевой формат...")
-	if err := p.writer.Write(data, color); err != nil {
+	var defaultColor string = "#ed4543"
+	if len(color) > 0 && color[0] != "" {
+		defaultColor = color[0]
+	}
+	if err := p.writer.Write(data, defaultColor); err != nil {
 		return fmt.Errorf("ошибка при записи данных: %w", err)
 	}
 	fmt.Println("✅ Данные записаны успешно")
